@@ -1,0 +1,17 @@
+{
+  "name": "ferrisariato-backend-project",
+  "module": "index.ts",
+  "dependencies": {
+    "express": "^5.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "start": "bun --watch index.ts"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/express": "^5.0.1"
+  }
+}
