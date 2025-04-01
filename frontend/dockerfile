@@ -1,0 +1,18 @@
+# Use the official Bun image
+FROM oven/bun:1.0
+
+# Set working directory
+WORKDIR /code
+
+# Install dependencies first for caching
+COPY package.json bun.lockb ./
+RUN bun install
+
+# Copy the rest of the application
+COPY . .
+
+# Expose the port your app runs on
+EXPOSE 5173
+
+# Start the development server
+CMD ["bun", "run", "dev"]
