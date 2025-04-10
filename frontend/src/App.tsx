@@ -1,20 +1,18 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+
+import { useNavigate } from 'react-router-dom';
 import './App.css'
-import Header from './templates/header/header'
-import Sidenav from './templates/sidenav/sidenav'
+import { useEffect } from 'react';
 
-function App() {
+export default function App() {
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    navigate('/auth/login', { replace: true });
+  }, [navigate]);
 
-  return (
-    <>
-    <div className='main-container'>
-      <Header />
-      <section className='content'></section>
-      <Sidenav />
-    </div>
-    </>
-  )
+  return null; // No renderiza nada
+ 
+  
 }
 
-export default App
+
