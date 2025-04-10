@@ -17,7 +17,7 @@ function Sidenav() {
     return (
         <nav className="sidenav">
             <ul className="sidenav-header">
-                <li><img src="/assets/logo-2.png" alt="logo" /> <span>Ferrisariato</span></li>
+                <li><img src="/assets/logo.png" alt="logo" /> <span>Ferrisariato</span></li>
             </ul>
             <ul className="sidenav-content">
                 {navItems.map((element, key) => (
