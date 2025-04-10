@@ -1,0 +1,36 @@
+.header-content {
+  position: relative;
+  height: 100%;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 1em;
+
+  li {
+    list-style: none;
+
+    .nav-item {
+      display: flex;
+      font-size: 1.5em;
+      cursor: pointer;
+      i {
+        color: white;
+        min-width: 40px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .bi-person-fill{
+        border: 1px solid white;
+        border-radius: 50%;
+      }
+    }
+
+    .nav-item:hover i{
+        color: #789dca;
+        border-color: #789dca;
+    }
+  }
+}
