@@ -1,0 +1,13 @@
+.table {
+
+  tr{
+    height: 52px;
+  }  
+
+  tbody tr:nth-child(odd) {
+    --bs-table-accent-bg: #e2e3e5;
+  }
+}
+/* .table tr:nth-child(even){
+     --bs-table-accent-bg:  #fff
+} */
