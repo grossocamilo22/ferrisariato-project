@@ -1,0 +1,17 @@
+# Ignora node_modules (se vuelve a instalar en el contenedor)
+node_modules
+
+# Ignora logs
+*.log
+
+# Ignora caché de dependencias
+npm-debug.log
+
+# Ignora configuración del editor
+.vscode
+.idea
+.DS_Store
+
+# Ignora build si existiera
+dist
+build

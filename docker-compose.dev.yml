@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"    # Puerto del frontend (Vite/React)
+    volumes:
+      - ./frontend:/app  # Hot-reload en desarrollo
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"    # Puerto del backend
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app  # Conexión al PostgreSQL
+    depends_on:
+      - frontend
+    networks:
+      - mi_red_docker   # Misma red que el contenedor PostgreSQL
+
+networks:
+  mi_red_docker:
+    external: true      # Usa una red existente

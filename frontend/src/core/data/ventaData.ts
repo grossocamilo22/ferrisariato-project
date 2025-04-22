@@ -1,6 +1,6 @@
 
 import { Venta } from "../models/Venta";
-import { clientesData } from "./ClienteData";
+import { clientesData } from "./clienteData";
 import { productosData } from "./productoData";
 
 export const ventasData: Venta[] = [

@@ -2,7 +2,7 @@
 import { ClienteTableData } from '../../../core/models/Cliente';
 import ListLayout from "../../../shared/layouts/list/list-layout";
 import BtnSearch from "../../../shared/components/btn-search/btn-search";
-import { clientesData } from '../../../core/data/ClienteData';
+import { clientesData } from '../../../core/data/clienteData';
 
 
 // eslint-disable-next-line react-refresh/only-export-components
