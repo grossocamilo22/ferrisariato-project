@@ -8,7 +8,7 @@ function Breadcrumb() {
     return (
         <section className="breadcrumb-container" aria-label="breadcrumb">
             <ol className="breadcrumb">
-                <li>{location.pathname}</li>
+                <li><i className="bi bi-house-door"></i>{location.pathname}</li>
             </ol>
         </section>)
 
