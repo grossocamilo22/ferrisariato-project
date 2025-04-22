@@ -1,89 +1,42 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 
-function App() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  const handleLogin = (e: { preventDefault: () => void; }) => {
-    e.preventDefault();
-
-    // Validación básica (puedes cambiar esto por una llamada real a backend)
-    if (email === 'usuario@demo.com' && password === '123456') {
-      setLoggedIn(true);
-      setError('');
-    } else {
-      setError('Correo o contraseña incorrectos.');
-    }
-  };
+const LoginForm = () => {
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div style={styles.container}>
-      {!loggedIn ? (
-        <form onSubmit={handleLogin} style={styles.form}>
-          <h2>Iniciar Sesión</h2>
-          <input
-            type="email"
-            placeholder="Correo electrónico"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={styles.input}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={styles.input}
-            required
-          />
-          {error && <p style={styles.error}>{error}</p>}
-          <button type="submit" style={styles.button}>Ingresar</button>
-        </form>
-      ) : (
-        <h2>Bienvenido, {email}!</h2>
-      )}
-    </div>
-  );
-}
+    <>
+      <h2 className="text-2xl font-bold text-center mb-6">Iniciar sesión</h2>
 
-const styles = {
-  container: {
-    display: 'flex',
-    height: '100vh',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: 30,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    boxShadow: '0 0 10px rgba(0,0,0,0.1)',
-    minWidth: 300,
-  },
-  input: {
-    marginBottom: 15,
-    padding: 10,
-    fontSize: 16,
-  },
-  button: {
-    padding: 10,
-    fontSize: 16,
-    backgroundColor: '#1976d2',
-    color: 'white',
-    border: 'none',
-    borderRadius: 5,
-    cursor: 'pointer',
-  },
-  error: {
-    color: 'red',
-    marginBottom: 10,
-  },
+      <input
+        type="email"
+        placeholder="Correo electrónico"
+        className="w-full border rounded-md px-4 py-2 mb-4 text-sm"
+      />
+
+      <div className="relative mb-4">
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Contraseña"
+          className="w-full border rounded-md px-4 py-2 text-sm"
+        />
+        <span
+          className="absolute right-3 top-3 cursor-pointer text-gray-500"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          👁️
+        </span>
+      </div>
+
+      <button className="w-full bg-blue-600 text-white py-2 rounded-md font-medium hover:bg-blue-700">
+        Ingresar
+      </button>
+
+      <div className="text-sm text-center mt-4 text-gray-600">
+        <p>¿Olvidaste tu contraseña? <a href="#" className="text-blue-600 font-medium">Recupérala</a></p>
+        <p className="mt-2">¿No tienes una cuenta? <a href="#" className="text-blue-600 font-medium">Regístrate</a></p>
+      </div>
+    </>
+  );
 };
 
-export default App;
+export default LoginForm;
