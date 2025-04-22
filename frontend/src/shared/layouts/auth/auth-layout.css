@@ -1,0 +1,30 @@
+import React from "react";
+
+const LoginForm = () => {
+  return (
+    <form>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <button type="submit">Login</button>
+      ¿No tienes una cuenta?{" "}
+    </form>
+  );
+};
+
+export default LoginForm;
+
+import React from "react";
+
+const LoginLayout = ({ children }) => {
+  return <div className="login-layout">{children}</div>;
+};
+
+export default LoginLayout;
+
+const Login = () => {
+  return (
+    <div>
+      {/* ...existing code... */}
+    </div>
+  );
+};
