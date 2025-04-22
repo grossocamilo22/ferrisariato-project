@@ -2,7 +2,7 @@ import "./auth-layout.css"
 
 function AuthLayout(){
         return(
-            <h1></h1>
+            <h1>registrar</h1>
         )
 }
 

@@ -5,7 +5,8 @@ import { createRoot } from 'react-dom/client'
 import { RouterProvider } from 'react-router';
 import './index.css'
 import { StrictMode } from 'react';
-import { route } from './core/config/route.ts';
+import { route } from './core/config/routes/route';
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
