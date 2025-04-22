@@ -1,13 +1,50 @@
 .table {
-
-  tr{
+  tr {
     height: 52px;
-  }  
+  }
 
   tbody tr:nth-child(odd) {
     --bs-table-accent-bg: #e2e3e5;
   }
 }
-/* .table tr:nth-child(even){
-     --bs-table-accent-bg:  #fff
-} */
+
+.btn-table:hover {
+  background-color: aliceblue !important;
+}
+
+.form-select:focus {
+  box-shadow: none !important;
+}
+
+@media (width < 992px) {
+  .table {
+    thead {
+      display: none;
+    }
+    .table-body {
+      tr {
+        position: relative;
+        height: 100%;
+        width: auto;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        & td {
+          display: flex;
+          justify-content: start;
+          flex-wrap: wrap;
+          text-align: left;
+          width: inherit;
+          gap: 8px;
+
+          span {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
