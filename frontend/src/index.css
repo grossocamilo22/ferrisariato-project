@@ -1,17 +1,43 @@
-*{
+*,
+*::after,
+*::before {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   box-sizing: border-box;
   padding: 0;
-  margin: 0; 
+  margin: 0;
 }
 
-:root{
+:root {
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+.btn-add {
+  background-color: #283593;
+
+  &:hover {
+    background-color: #1a237e;
+  }
+}
+
+.btn-update {
+  background-color: #047738;
+  &:hover {
+    background-color: #035327;
+  }
+}
+
+.btn-show {
+  background-color: #37474f;
+  &:hover {
+    background-color: #263238;
+  }
+}
+textarea{
+  resize: none;
+}
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
