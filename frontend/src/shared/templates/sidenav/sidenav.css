@@ -18,6 +18,13 @@
       font-weight: bold;
       font-size: larger;
     }
+
+    .nav-item {
+      display: none;
+      padding: 6px;
+      font-size: 2em;
+      color: #789dca;
+    }
   }
 }
 
@@ -46,14 +53,25 @@
       }
     }
 
-    a:hover,a.active {
+    a:hover,
+    a.active {
       background-color: #789dca;
       border-radius: 12px;
 
-      span,i {
+      span,
+      i {
         color: #213a5b;
       }
-    
+    }
+  }
+}
+
+@media (width < 768px) {
+  .sidenav-header {
+    justify-content: space-between;
+
+    li .nav-item {
+      display: block;
     }
   }
 }

@@ -2,7 +2,11 @@ import "./auth.css"
 
 function Register(){
     return (
-        <h1>Register</h1>
+        <form action="">
+            <div>
+                <label htmlFor="">nombre</label>
+            </div>
+        </form>
     )
 }
 
