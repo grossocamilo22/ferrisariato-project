@@ -1,0 +1,24 @@
+.btn {
+  background-color: #213a5b;
+  color: white;
+
+  &:hover {
+    background-color: #315585;
+    color: white;
+  }
+}
+
+
+a,
+.form-check-label {
+  font-size: small;
+  color: #213a5b;
+}
+
+a {
+  cursor: pointer;
+
+  &:hover {
+    color: #32598d;
+  }
+}

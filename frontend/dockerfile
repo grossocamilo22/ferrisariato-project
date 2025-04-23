@@ -2,10 +2,12 @@
 FROM oven/bun:1.0
 
 # Set working directory
-WORKDIR /code
+WORKDIR /app/frontend
 
 # Install dependencies first for caching
 COPY package.json bun.lockb ./
+
+# 2. Instalación robusta de dependencias
 RUN bun install
 
 # Copy the rest of the application

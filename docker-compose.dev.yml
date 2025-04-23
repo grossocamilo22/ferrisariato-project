@@ -1,23 +1,34 @@
 services:
   frontend:
-    build: ./frontend
+    container_name: frontend_ferrisariato
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "5173:5173"    # Puerto del frontend (Vite/React)
+      - "5173:5173" # Puerto del frontend (Vite/React)
     volumes:
-      - ./frontend:/app  # Hot-reload en desarrollo
-
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"    # Puerto del backend
+      - ./frontend/src:/app/frontend/src  # Solo monta el código fuente
+      - ./frontend/public:/app/frontend/public  # Solo monta archivos públicos
+      - /app/frontend/node_modules  # Aísla completamente node_modules
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app  # Conexión al PostgreSQL
+    command: bun run dev
+
+  backend:
+    container_name: backend_ferrisariato
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Puerto del backend
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app # Conexión al PostgreSQL
     depends_on:
       - frontend
     networks:
-      - mi_red_docker   # Misma red que el contenedor PostgreSQL
+      - mi_red_docker # Misma red que el contenedor PostgreSQL
 
 networks:
   mi_red_docker:
-    external: true      # Usa una red existente
+    external: true # Usa una red existente

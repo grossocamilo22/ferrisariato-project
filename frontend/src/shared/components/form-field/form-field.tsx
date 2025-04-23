@@ -1,7 +1,7 @@
 import React from "react";
 
 type FormFieldProps = {
-  label: string;
+  label?: string;
   name: string;
   type?: React.HTMLInputTypeAttribute;
   value: string | number;
@@ -39,9 +39,11 @@ const FormField = ({
 
   return (
     <div className={className}>
-      <label htmlFor={name} className="form-label">
-        {label}
-      </label>
+       {label && (
+        <label htmlFor={name} className="form-label">
+          {label}
+        </label>
+      )}
       
       {as === "textarea" ? (
         <textarea {...commonProps} />

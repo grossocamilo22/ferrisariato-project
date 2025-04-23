@@ -1,4 +1,4 @@
 export interface RouteLoaderData {
     titulo: string;
-    icon:string;
+    icon?:string;
 }

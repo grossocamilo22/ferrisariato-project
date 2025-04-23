@@ -79,11 +79,12 @@ export const route = createBrowserRouter([
         index: true,
         path: "login",
         Component: Login,
+        loader: ():RouteLoaderData => ({titulo:"Iniciar sesión"})
       },
       {
-        index: true,
         path: "register",
         Component: Register,
+        loader: ():RouteLoaderData => ({titulo:"Crear Cuenta"})
       },
     ],
   },

@@ -1,17 +1,15 @@
-# Ignora node_modules (se vuelve a instalar en el contenedor)
 node_modules
-
-# Ignora logs
-*.log
-
-# Ignora caché de dependencias
-npm-debug.log
-
-# Ignora configuración del editor
+Dockerfile*
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
 .vscode
+Makefile
+helm-charts
+.env
+.editorconfig
 .idea
-.DS_Store
-
-# Ignora build si existiera
-dist
-build
+coverage*

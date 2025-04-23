@@ -3,9 +3,7 @@ import "./auth.css"
 function Register(){
     return (
         <form action="">
-            <div>
-                <label htmlFor="">nombre</label>
-            </div>
+            registrar
         </form>
     )
 }
