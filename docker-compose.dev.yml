@@ -5,10 +5,10 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "5173:5173" # Puerto del frontend (Vite/React)
+      - "5173:5173"
     volumes:
-      - ./frontend/src:/app/frontend/src  # Solo monta el código fuente
-      - ./frontend/public:/app/frontend/public  # Solo monta archivos públicos
+      - ./frontend/src:/app/frontend/src
+      - ./frontend/public:/app/frontend/public
       - /app/frontend/node_modules  # Aísla completamente node_modules
     environment:
       - NODE_ENV=development
@@ -20,15 +20,32 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000" # Puerto del backend
+      - "3000:3000"
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app # Conexión al PostgreSQL
+      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app
     depends_on:
       - frontend
     networks:
-      - mi_red_docker # Misma red que el contenedor PostgreSQL
+      - mi_red_docker
+
+  postgres:
+    container_name: ecom
+    image: postgres:latest  # Usando el tag 'latest'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1809
+      POSTGRES_DB: ferrisariato_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volumen persistente para los datos
+    networks:
+      - mi_red_docker
 
 networks:
   mi_red_docker:
-    external: true # Usa una red existente
+    external: true  # Usa una red existente
+
+volumes:
+  postgres_data:  # Definir volumen persistente
