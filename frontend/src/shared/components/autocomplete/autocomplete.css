@@ -1,0 +1,15 @@
+.autocomplete-container{
+    box-sizing: border-box;
+    padding: 0px 12px;
+    z-index: 3;
+
+    ul{
+        list-style: none;
+        max-height: 150px;
+        background-color: whitesmoke;
+
+        li button:hover{
+            background-color: rgb(190, 190, 190);
+        }
+    }
+}
