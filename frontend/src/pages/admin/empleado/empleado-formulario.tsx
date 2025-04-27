@@ -6,6 +6,7 @@ import { TipoIdentificacion } from "../../../core/models/Tipo_Identificacion";
 import { useForm } from "../../../shared/hooks/useForm";
 import { FormEvent } from "react";
 import FormField from "../../../shared/components/form-field/form-field";
+import { Rol } from "../../../core/models/Rol";
 
 function EmpleadoFormulario() {
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ function EmpleadoFormulario() {
         direccion: '',
         tipoIdentificacion: "",
         password: "",
-        role: "empleado",
+        rol: Rol.EMPLEADO,
         correo: ""
     });
 
