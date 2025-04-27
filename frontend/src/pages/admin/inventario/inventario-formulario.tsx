@@ -37,7 +37,7 @@ function InventarioFormulario() {
                     campoTexto="productName">
                     <FormField className="col-12" label="Nombre:" name="productName" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.productName ?? ""} />
                 </Autocomplete>
-                <FormField className="col-lg-4 col-12" label="Cantidad Unitaria:" name="cantidad_unitaria" disabled={true} value={formData.producto?.cantidad_unitaria ?? ''} />
+                <FormField className="col-lg-4 col-12" label="Cantidad Unitaria:" name="cantidad_unitaria" disabled={true} value={formData.producto?.cantidadUnitaria ?? ''} />
                 <FormField className="col-lg-4 col-12" label="Precio:" name="precio" disabled={true} value={formData.producto?.precio ?? ""} />
                 <FormField className="col-lg-4 col-12" label="Nombre:" name="nombre" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.producto?.nombre || ""} />
                 <FormField className="col-lg-4 col-12" label="Cantidad Unitaria:" name="cantidad_unitaria"  disabled={true} value={formData.producto?.cantidadUnitaria || ""} />
@@ -45,7 +45,7 @@ function InventarioFormulario() {
             </div>
 
             <div className="row gap-lg-0 gap-4 border rounded-2 m-0 p-4">
-                <FormField label="Cantidad:" name="cantidad" onChange={handleChange} placeholder="la cantidad" disabled={config.disable} value={formData.cantidad ?? ""} />
+                <FormField label="Cantidad:" name="cantidad" onChange={handleChange} placeholder="la cantidad" disabled={config.disable} value={formData.stock ?? ""} />
                 <FormField label="Fecha:" name="cantidad" placeholder="el nombre" disabled={true} value={formData.ultimaActualizacion?.toLocaleDateString() ?? ""} />
                 <FormField label="Cantidad:" name="cantidad" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.stock || ""} />
                 <FormField label="Fecha:" name="cantidad" placeholder="el nombre" disabled={true} value={formData.ultimaActualizacion?.toLocaleDateString() || ""} />
