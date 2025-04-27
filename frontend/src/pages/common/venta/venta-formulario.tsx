@@ -8,6 +8,7 @@ import FormActions from "../../../shared/components/form-actions/form-actions";
 import Table from "../../../shared/components/table/table";
 import { DetalleVenta, DetalleVentaTableData, FormDetalleVenta } from '../../../core/models/DetalleVenta';
 import { personalizarAcciones } from "../../../core/config/table/acciones.config";
+import { MetodoPago } from "../../../core/models/MetodoPago";
 
 function mapDetalleVentaToTableData(detalle: DetalleVenta): DetalleVentaTableData {
     return {
@@ -24,7 +25,9 @@ function VentaFormulario() {
         id: '',
         detalles: [],
         fecha: new Date(),
+        metodoPago: MetodoPago.EFECTIVO,
         cliente: undefined,
+        user: undefined,
         total: 0
     });
     const { formData: formDetalle } = useForm<FormDetalleVenta>({
