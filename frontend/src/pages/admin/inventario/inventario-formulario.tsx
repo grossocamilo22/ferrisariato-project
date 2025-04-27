@@ -12,8 +12,8 @@ function InventarioFormulario() {
     const navigate = useNavigate();
     const { formData, setFormData, handleChange } = useForm<Partial<InventarioForm>>({
         id: '',
-        cantidad: 0,
         productName: "",
+        stock: 0,
         ultimaActualizacion: new Date(),
         producto: undefined,
     });
@@ -39,11 +39,16 @@ function InventarioFormulario() {
                 </Autocomplete>
                 <FormField className="col-lg-4 col-12" label="Cantidad Unitaria:" name="cantidad_unitaria" disabled={true} value={formData.producto?.cantidad_unitaria ?? ''} />
                 <FormField className="col-lg-4 col-12" label="Precio:" name="precio" disabled={true} value={formData.producto?.precio ?? ""} />
+                <FormField className="col-lg-4 col-12" label="Nombre:" name="nombre" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.producto?.nombre || ""} />
+                <FormField className="col-lg-4 col-12" label="Cantidad Unitaria:" name="cantidad_unitaria"  disabled={true} value={formData.producto?.cantidadUnitaria || ""} />
+                <FormField className="col-lg-4 col-12" label="Precio:" name="precio" disabled={true} value={formData.producto?.precio || ""} />
             </div>
 
             <div className="row gap-lg-0 gap-4 border rounded-2 m-0 p-4">
                 <FormField label="Cantidad:" name="cantidad" onChange={handleChange} placeholder="la cantidad" disabled={config.disable} value={formData.cantidad ?? ""} />
                 <FormField label="Fecha:" name="cantidad" placeholder="el nombre" disabled={true} value={formData.ultimaActualizacion?.toLocaleDateString() ?? ""} />
+                <FormField label="Cantidad:" name="cantidad" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.stock || ""} />
+                <FormField label="Fecha:" name="cantidad" placeholder="el nombre" disabled={true} value={formData.ultimaActualizacion?.toLocaleDateString() || ""} />
             </div>
             <FormActions accion={accion} config={config} />
         </form>

@@ -4,11 +4,12 @@ import BtnSearch from "../../../shared/components/btn-search/btn-search";
 import ListLayout from "../../../shared/layouts/list/list-layout";
 
 function ProductoLista() {
-    const nombreTableColumns: string[] = ["Id", "Nombre", "Cantidad Unitaria", "Precio"];
+    const nombreTableColumns: string[] = ["Id", "Codigo de barras", "Nombre", "Cantidad Unitaria", "Precio"];
     const listaProductos: ProductoTableData[] = productosData.map(producto => ({
         id: producto.id,
+        codigoBarras: producto.codigoBarras,
         nombre: producto.nombre,
-        cantidad_unitaria: producto.cantidad_unitaria,
+        cantidadUnitaria: producto.cantidadUnitaria,
         precio: producto.precio
     }));
     return (

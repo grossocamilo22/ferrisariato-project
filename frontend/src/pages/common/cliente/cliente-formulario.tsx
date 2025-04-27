@@ -11,6 +11,7 @@ import FormField from "../../../shared/components/form-field/form-field";
 function ClienteFormulario() {
 
     const navigate = useNavigate();
+    /* const { id } = useParams(); */
     const { formData, handleChange } = useForm<Cliente>({
         id: '',
         nombre: '',
@@ -26,6 +27,16 @@ function ClienteFormulario() {
             return navigate(-1);
         }
     }
+
+    /* useEffect(() => {
+        if (id) {
+            const obtenerCliente = async () => {
+                const cliente = await obtenerPorId('clientes', id);
+                setFormData(cliente);
+            };
+            obtenerCliente();
+        }
+    }, [id, setFormData]); */
 
     const { accion, config } = useAccionFormulario();
 

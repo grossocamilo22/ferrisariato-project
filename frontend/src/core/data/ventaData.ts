@@ -1,4 +1,5 @@
 
+import { MetodoPago } from "../models/MetodoPago";
 import { Venta } from "../models/Venta";
 import { clientesData } from "./clienteData";
 import { productosData } from "./productoData";
@@ -22,6 +23,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 37.48,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-15T09:23:45")
   },
   {
@@ -42,6 +44,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 24.49,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-16T14:12:30")
   },
   {
@@ -62,6 +65,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 20.73,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-17T11:45:15")
   },
   {
@@ -76,6 +80,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 22.99,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-18T16:30:22")
   },
   {
@@ -96,6 +101,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 42.46,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-19T10:15:33")
   },
   {
@@ -116,6 +122,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 31.5,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-20T13:45:10")
   },
   {
@@ -136,6 +143,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 16.49,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-21T17:20:05")
   },
   {
@@ -156,6 +164,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 30.75,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-22T08:30:45")
   },
   {
@@ -176,6 +185,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 44.5,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-23T15:10:20")
   },
   {
@@ -196,6 +206,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 33.73,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-24T12:05:18")
   },
   {
@@ -216,6 +227,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 21.98,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-25T09:45:30")
   },
   {
@@ -236,6 +248,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 30.23,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-26T14:20:15")
   },
   {
@@ -256,6 +269,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 36.97,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-27T11:10:40")
   },
   {
@@ -276,6 +290,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 115.0,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-05-28T16:45:22")
   },
   {
@@ -296,6 +311,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 16.49,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-29T10:30:55")
   },
   {
@@ -316,6 +332,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 29.65,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-30T13:15:10")
   },
   {
@@ -336,6 +353,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 22.49,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-05-31T17:25:30")
   },
   {
@@ -356,6 +374,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 46.0,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-06-01T09:40:20")
   },
   {
@@ -376,6 +395,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 38.95,
+    metodoPago: MetodoPago.TARGETA,
     fecha: new Date("2023-06-02T14:50:15")
   },
   {
@@ -402,6 +422,7 @@ export const ventasData: Venta[] = [
       }
     ],
     total: 31.48,
+    metodoPago: MetodoPago.EFECTIVO,
     fecha: new Date("2023-06-03T11:30:45")
   }
 ];

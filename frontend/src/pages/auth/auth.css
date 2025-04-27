@@ -1,4 +1,4 @@
-.btn {
+.btn-auth {
   background-color: #213a5b;
   color: white;
 
@@ -7,7 +7,6 @@
     color: white;
   }
 }
-
 
 a,
 .form-check-label {

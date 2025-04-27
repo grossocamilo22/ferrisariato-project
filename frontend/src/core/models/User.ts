@@ -1,4 +1,5 @@
 import { ClienteTableData } from "./Cliente";
+import { Rol } from "./Rol";
 import { TipoIdentificacion } from "./Tipo_Identificacion";
 
 export type User = {
@@ -8,9 +9,9 @@ export type User = {
   apellido: string;
   direccion: string;
   contacto: string;
-  correo?: string;
-  password?: string;
-  role: "admin" | "empleado";
+  correo: string;
+  password: string;
+  rol: Rol;
 };
 
 export type EmpleadoTableData = ClienteTableData;
@@ -23,5 +24,5 @@ export type FormUserLogin = Omit<
   | "apellido"
   | "direccion"
   | "contacto"
-  | "role"
+  | "rol"
 >;

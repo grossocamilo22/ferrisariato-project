@@ -2,7 +2,7 @@
 
 import { User } from "./User";
 
-export type Proveedor = Omit<User,"tipoIdentificacion"|"password"|"apellido"|"role"> & {
+export type Proveedor = Omit<User,"tipoIdentificacion"|"password"|"apellido"|"rol"> & {
   empresa: string;
 };
 

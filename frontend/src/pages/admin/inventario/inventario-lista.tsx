@@ -8,7 +8,7 @@ function InventarioLista() {
     const listaInventarios: InventarioTableData[] = inventarioData.map(inventario => ({
         id: inventario.id,
         productoNombre: inventario.producto.nombre || "",
-        cantidad: inventario.cantidad,
+        stock: inventario.stock,
         ultimaActualizacion: inventario.ultimaActualizacion.toLocaleString()
     }));
     return (
