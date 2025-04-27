@@ -26,7 +26,7 @@ function Login() {
                 </div>
                 <a className="text-decoration-none">¿Olvidaste tu contraseña?</a>
             </div>
-            <button className="col-12 btn mb-3">Login</button>
+            <button className="col-12 btn btn-auth mb-3">Login</button>
             <hr />
             <span className="d-block col-12 text-center fs-6 fw-semibold">¿No tienes cuenta? <NavLink to={"/auth/register"}  className="text-decoration-underline">Crear cuenta</NavLink></span>
         </form>
