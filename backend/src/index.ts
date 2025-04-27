@@ -1,19 +1,29 @@
-import sequelizeConexion from "database/connection";
+import { PrismaClient } from "@prisma/client";
 import express from "express";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-async function checkDataseConection() {
+const prisma = new PrismaClient();
+
+async function checkConnection() {
+  // Verifica si la base de datos está conectada
   try {
-    await sequelizeConexion.authenticate();
-    console.log("Conectado en la BD");
-  } catch (error) {
-    console.error("No se puedo establecer la conexion en la base de datos");
+    await prisma.$connect();
+    console.log("Database connected");
+  } catch (e) {
+    console.error("Database connection failed", e);
   }
 }
 
-checkDataseConection();
+checkConnection()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}... aunque docker  lo se`);

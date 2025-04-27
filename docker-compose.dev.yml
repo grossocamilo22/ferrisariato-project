@@ -1,4 +1,24 @@
 services:
+  postgres_db:
+    image: postgres:latest  # Usando el tag 'latest'
+    hostname: postgres_db
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: ferrisariato_app
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1809
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volumen persistente para los datos
+    networks:
+      - mi_red_docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ferrisariato_app"]
+      interval: 5s
+      timeout: 2s
+      retries: 20
   frontend:
     container_name: frontend_ferrisariato
     build:
@@ -12,8 +32,7 @@ services:
       - /app/frontend/node_modules  # Aísla completamente node_modules
     environment:
       - NODE_ENV=development
-    command: bun run dev
-
+    
   backend:
     container_name: backend_ferrisariato
     build:
@@ -21,31 +40,18 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:1809@ecom:5432/ferrisariato_app
+    tty: true
     depends_on:
-      - frontend
-    networks:
-      - mi_red_docker
-
-  postgres:
-    container_name: ecom
-    image: postgres:latest  # Usando el tag 'latest'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1809
-      POSTGRES_DB: ferrisariato_app
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # Volumen persistente para los datos
+      postgres_db:
+        condition: service_healthy
+    env_file:
+      - ./backend/.env
     networks:
       - mi_red_docker
 
 networks:
   mi_red_docker:
-    external: true  # Usa una red existente
+    driver: bridge  # ¡Sin 'external: true'!
 
 volumes:
   postgres_data:  # Definir volumen persistente

@@ -1,11 +1,18 @@
 # Use the Bun official image to avoid installing it manually
 FROM oven/bun:latest
 
+# Actualiza el sistema e instala OpenSSL
+RUN apt-get update -y \
+    && apt-get install -y openssl
+
 # Set the working directory inside the container
 WORKDIR /app
 
 # Copy package.json and bun.lockb to install dependencies
-COPY package.json bun.lockb .env ./
+COPY package.json bun.lockb .env ./startup.sh ./
+
+# Da permisos al script
+RUN chmod +x ./startup.sh
 
 # Install project dependencies using Bun
 RUN bun install
@@ -17,4 +24,4 @@ COPY . .
 EXPOSE 3000
 
 # Command to start the application
-CMD ["bun", "run", "start"]
+CMD ["./startup.sh"]
