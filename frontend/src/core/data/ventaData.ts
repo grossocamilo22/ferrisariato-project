@@ -1,5 +1,5 @@
 
-import { MetodoPago } from "../models/metodoPago";
+import { MetodoPago } from "../models/MetodoPago";
 import { Venta } from "../models/Venta";
 import { clientesData } from "./clienteData";
 import { productosData } from "./productoData";
