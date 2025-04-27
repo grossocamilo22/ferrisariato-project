@@ -12,7 +12,8 @@ function ProductoFormulario() {
     const { formData, handleChange } = useForm<Producto>({
         id: '',
         nombre: '',
-        cantidad_unitaria: '',
+        codigoBarras: '',
+        cantidadUnitaria: '',
         descripcion: '',
         precio: 0,
         categoria: { id: '', nombre: '', descripcion: "" }
@@ -28,9 +29,10 @@ function ProductoFormulario() {
     const { accion, config } = useAccionFormulario();
     return (
         <form className="row gx-lg-5 gx-3 gy-4" onSubmit={handleSubmit}>
+            <FormField label="Codigo de barras:" name="codigoBarras" onChange={handleChange} placeholder="el codigo de barras" disabled={config.disable} value={formData.codigoBarras} />
             <div className="col-lg-6 col-12" >
                 <label htmlFor="categoria" className="form-label">Categoría del producto:</label>
-                <select className="form-select" name="categoria" value={formData.categoria.id} id="categoria" disabled={config.disable} onChange={handleChange}>
+                <select className="form-select" name="categoria" value={formData.categoria?.id} id="categoria" disabled={config.disable} onChange={handleChange}>
                     <option value="">Seleccione la categoria</option>
                     {
                         categoriasData.map((value) => (
@@ -40,9 +42,9 @@ function ProductoFormulario() {
                 </select>
             </div>
             <FormField label="Nombre:" name="nombre" onChange={handleChange} placeholder="el nombre" disabled={config.disable} value={formData.nombre} />
-            <FormField label="Cantidad Unitaria:" name="cantidad_unitaria" onChange={handleChange} placeholder="la cantidad unitaria" disabled={config.disable} value={formData.cantidad_unitaria} />
+            <FormField label="Cantidad Unitaria:" name="cantidadUnitaria" onChange={handleChange} placeholder="la cantidad unitaria" disabled={config.disable} value={formData.cantidadUnitaria} />
             <FormField label="Precio:" type="number" name="precio" onChange={handleChange} placeholder="el precio" disabled={config.disable} value={formData.precio} />
-            <FormField label="Descripción:" name="descripcion" onChange={handleChange} as="textarea" placeholder="la descripción" disabled={config.disable} value={formData.descripcion} />
+            <FormField label="Descripción:" name="descripcion" onChange={handleChange} as="textarea" placeholder="la descripción" disabled={config.disable} value={formData.descripcion ?? ""} />
             <FormActions accion={accion} config={config} />
         </form>
     )
