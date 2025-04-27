@@ -2,16 +2,23 @@
   "name": "ferrisariato-backend-project",
   "module": "index.ts",
   "dependencies": {
+    "@prisma/client": "^6.6.0",
+    "dotenv": "^16.5.0",
     "express": "^5.1.0"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "bun --watch index.ts"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "bunx prisma generate && bunx prisma migrate dev --name init",
+    "start": "bun --watch src/index.ts"
   },
   "type": "module",
   "devDependencies": {
-    "@types/express": "^5.0.1"
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.2",
+    "prisma": "^6.6.0",
+    "tsx": "^4.19.3"
   }
 }
