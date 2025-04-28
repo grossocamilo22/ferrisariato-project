@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import express from "express";
+import cors from "cors";
 
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
 const prisma = new PrismaClient();
@@ -24,6 +26,14 @@ checkConnection()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}... aunque docker  lo se`);

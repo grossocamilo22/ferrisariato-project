@@ -9,10 +9,7 @@ RUN apt-get update -y \
 WORKDIR /app
 
 # Copy package.json and bun.lockb to install dependencies
-COPY package.json bun.lockb .env ./startup.sh ./
-
-# Da permisos al script
-RUN chmod +x ./startup.sh
+COPY package.json bun.lockb .env  ./
 
 # Install project dependencies using Bun
 RUN bun install
@@ -20,8 +17,13 @@ RUN bun install
 # Copy the rest of the source code
 COPY . .
 
+# Fix line endings and permissions
+RUN sed -i 's/\r$//' /app/startup.sh && \
+    chmod +x /app/startup.sh && \
+    ls -la /app/startup.sh  # Debug line 
+
 # Expose the port where the application runs (adjust if needed)
 EXPOSE 3000
 
 # Command to start the application
-CMD ["./startup.sh"]
+CMD ["/app/startup.sh"]
