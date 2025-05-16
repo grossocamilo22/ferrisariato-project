@@ -105,6 +105,7 @@ export class GeneradorControlador<T extends ModelName> {
       const where = { id: req.params.id || undefined };
       const result = await (this.modelo as any).findUnique({
         where,
+        select:this.buildSelect(),
         include: this.buildInclude(),
       });
       result
