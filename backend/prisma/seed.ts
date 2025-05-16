@@ -5,6 +5,7 @@ import {
   Rol,
   TipoIdentificacion,
 } from "./src/generated/client";
+import { hashPassword } from "../src/helpers/auth";
 
 const prisma = new PrismaClient();
 
@@ -248,6 +249,7 @@ async function main() {
       TipoIdentificacion.NIT,
       TipoIdentificacion.PAS,
     ]),
+
     nombre: faker.person.firstName(),
     apellido: faker.person.lastName(),
     direccion: faker.location.streetAddress(),
@@ -261,9 +263,9 @@ async function main() {
   });
   console.log(`✅ ${result.count} clientes creados exitosamente`);
 
-  console.log("🌱 Insertando empleados...");
+  console.log("🌱 Insertando usuarios...");
 
-  const empleadosData = [
+  const usuariosData = [
     {
       id: "fa1f11b0-bc1c-4d18-bd76-1d2e3b4d58a1",
       tipoIdentificacion: TipoIdentificacion.CC,
@@ -405,7 +407,7 @@ async function main() {
       contacto: "3024455667",
       correo: "santiago.rivas@example.com",
       password: "santi555",
-      rol: Rol.EMPLEADO,
+      rol: Rol.ADMIN,
     },
     {
       id: "f343b0f3-e4b3-4ef2-9297-11e185f1565a",
@@ -416,82 +418,30 @@ async function main() {
       contacto: "3209876543",
       correo: "daniela.perez@example.com",
       password: "daniela4321",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "09c07a2f-d0cd-4693-b1de-33f109e5bc71",
-      tipoIdentificacion: TipoIdentificacion.CC,
-      nombre: "Luis",
-      apellido: "Sánchez",
-      direccion: "Calle 15 #60-70, Montería",
-      contacto: "3141122334",
-      correo: "luis.sanchez@example.com",
-      password: "luissafe",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "3ea22f1b-f69e-4f89-b79b-925e302f1167",
-      tipoIdentificacion: TipoIdentificacion.CC,
-      nombre: "Angela",
-      apellido: "Mendoza",
-      direccion: "Av. Libertador #55-10, Popayán",
-      contacto: "3156677889",
-      correo: "angela.mendoza@example.com",
-      password: "angelapass",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "1a6e1f96-2853-4a91-9d57-9fa5c8f8b87c",
-      tipoIdentificacion: TipoIdentificacion.CC,
-      nombre: "Sebastián",
-      apellido: "Moreno",
-      direccion: "Cra 5 #66-77, Florencia",
-      contacto: "3013344556",
-      correo: "sebastian.moreno@example.com",
-      password: "sebas321",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "db8a1b87-7772-4f76-b3e0-cae5343a2fd5",
-      tipoIdentificacion: TipoIdentificacion.CC,
-      nombre: "Natalia",
-      apellido: "Ortiz",
-      direccion: "Calle 50 #90-21, Armenia",
-      contacto: "3115566778",
-      correo: "natalia.ortiz@example.com",
-      password: "nati987",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "80f373e7-04f3-4038-9a6e-6a5c8f92f5fb",
-      tipoIdentificacion: TipoIdentificacion.CC,
-      nombre: "Jorge",
-      apellido: "Castro",
-      direccion: "Cra 13 #20-30, Valledupar",
-      contacto: "3129988777",
-      correo: "jorge.castro@example.com",
-      password: "jorge007",
-      rol: Rol.EMPLEADO,
-    },
-    {
-      id: "ed67f9a7-52d0-4a20-9fa3-1a8db81c90f6",
-      tipoIdentificacion: TipoIdentificacion.PAS,
-      nombre: "Luisa",
-      apellido: "Navarro",
-      direccion: "Av. Sur #45-23, Tunja",
-      contacto: "3161122998",
-      correo: "luisa.navarro@example.com",
-      password: "luinav123",
-      rol: Rol.EMPLEADO,
+      rol: Rol.ADMIN,
     },
   ];
 
+  const usuariosDataHash = await Promise.all(
+    usuariosData.map(async (usuario) => ({
+      id: usuario.id,
+      tipoIdentificacion: usuario.tipoIdentificacion,
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      contacto: usuario.contacto,
+      direccion: usuario.direccion,
+      correo: usuario.correo,
+      password: await hashPassword(usuario.password), // Espera cada hash
+      rol: usuario.rol,
+    }))
+  );
+
   // Usar createMany para mejor rendimiento
   await prisma.user.createMany({
-    data: empleadosData,
+    data: usuariosDataHash,
   });
 
-  console.log("✅ 20 empleados creados exitosamente");
+  console.log(`✅ ${usuariosData.length} empleados creados exitosamente`);
 
   // Obtener datos existentes
   const productos1 = await prisma.producto.findMany();

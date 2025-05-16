@@ -19,7 +19,7 @@ model User {
   apellido           String
   direccion          String
   contacto           String
-  correo             String @unique
+  correo             String             @unique
   password           String
   ventas             Venta[]
 

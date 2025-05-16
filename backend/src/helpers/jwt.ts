@@ -2,14 +2,14 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 interface Payload {
-  uid: string;
+  id: string;
   nombre: string;
 }
 
 dotenv.config();
 
-export const generarJWT = (uid: string, nombre: string): Promise<string> => {
-  const payload: Payload = { uid, nombre };
+export const generarJWT = (id: string, nombre: string): Promise<string> => {
+  const payload: Payload = { id, nombre };
 
   return new Promise((resolve, reject) => {
     jwt.sign(

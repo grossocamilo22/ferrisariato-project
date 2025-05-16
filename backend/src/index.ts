@@ -7,7 +7,10 @@ import inventarioRoutes from "./routes/inventarioRoutes";
 import ventaRoutes from "./routes/ventaRoutes";
 import empleadoRoutes from "./routes/empleadoRoutes";
 import authRoutes from "./routes/authRoutes";
+import categoriaRoutes from "./routes/categoriaRoutes";
 import { PrismaClient } from "../prisma/src/generated/client";
+import cookieParser from "cookie-parser";
+import { validarJwt } from "./middlewares/validateJwt";
 
 const app = express();
 
@@ -34,24 +37,25 @@ checkConnection()
     await prisma.$disconnect();
   });
 
-/* app.use(
+app.use(
   cors({
     origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
-); */
-app.use(cors());
+);
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/api/clientes", clienteRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/api/proveedores", proveedorRoutes);
-app.use("/api/productos", productoRoutes);
-app.use("/api/inventarios", inventarioRoutes);
-app.use("/api/ventas", ventaRoutes);
-app.use("/api/empleados", empleadoRoutes);
+app.use("/api/clientes", validarJwt, clienteRoutes);
+app.use("/api/proveedores", validarJwt, proveedorRoutes);
+app.use("/api/productos", validarJwt, productoRoutes);
+app.use("/api/inventarios", validarJwt, inventarioRoutes);
+app.use("/api/ventas", validarJwt, ventaRoutes);
+app.use("/api/categorias", validarJwt, categoriaRoutes);
+app.use("/api/empleados", validarJwt, empleadoRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}...`);

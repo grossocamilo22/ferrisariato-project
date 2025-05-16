@@ -1,6 +1,7 @@
 import express from "express";
 import { authController } from "../controllers/authController";
 import ValidateFields from "../validations/validate-fields";
+import { validarJwt } from "../middlewares/validateJwt";
 
 const router = express.Router();
 router.post(
@@ -49,6 +50,12 @@ router.post(
   ]),
   authController.login.bind(authController)
 );
-router.get("/renew/:id", authController.revalidarToken.bind(authController));
+router.get(
+  "/renew",
+  validarJwt,
+  authController.revalidarToken.bind(authController)
+);
+
+router.post("/logout",authController.logout.bind(authController));
 
 export default router;

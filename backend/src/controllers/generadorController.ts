@@ -1,22 +1,32 @@
 import { Request, Response } from "express";
-import { Prisma, PrismaClient } from "../../prisma/src/generated/client";
+import {
+  MetodoPago,
+  Prisma,
+  PrismaClient,
+} from "../../prisma/src/generated/client";
 import { hashPassword } from "../helpers/auth";
 
 const prisma = new PrismaClient();
-export class GeneradorControlador<T extends keyof PrismaClient> {
-  private modelo: PrismaClient[T];
+type ModelName = keyof typeof prisma;
+type SimpleOrNestedSelect = {
+  [key: string]: boolean | SimpleOrNestedSelect;
+};
+type DeepInclude = {
+  [key: string]: boolean | DeepInclude;
+};
+
+export class GeneradorControlador<T extends ModelName> {
+  private modelo: (typeof prisma)[T];
   private nombreModelo: string;
   private modeloMensaje: string;
-  private defaultSelectFields:
-    | Record<string, boolean | Record<string, boolean>>
-    | undefined;
-  private defaultIncludeFields: Record<string, boolean> | undefined;
+  private defaultSelectFields?: SimpleOrNestedSelect;
+  private defaultIncludeFields?: DeepInclude;
 
   constructor(
     modelo: T,
     modeloNombre: string,
-    defaultSelectFields?: Record<string, boolean | Record<string, boolean>>,
-    defaultIncludeFields?: Record<string, boolean>
+    defaultSelectFields?: SimpleOrNestedSelect,
+    defaultIncludeFields?: DeepInclude
   ) {
     this.modelo = prisma[modelo];
     this.nombreModelo = String(modelo);
@@ -25,13 +35,11 @@ export class GeneradorControlador<T extends keyof PrismaClient> {
     this.defaultIncludeFields = defaultIncludeFields;
   }
 
-  private buildSelect():
-    | Record<string, boolean | Record<string, boolean>>
-    | undefined {
+  private buildSelect(): SimpleOrNestedSelect | undefined {
     return this.defaultSelectFields;
   }
 
-  private buildInclude(): Record<string, boolean> | undefined {
+  private buildInclude(): DeepInclude | undefined {
     return this.defaultIncludeFields;
   }
 
@@ -39,8 +47,30 @@ export class GeneradorControlador<T extends keyof PrismaClient> {
   async create(req: Request, res: Response) {
     try {
       const data = req.body;
-      if(this.nombreModelo === "empleado"){
+      if (this.nombreModelo === "empleado") {
         data.password = await hashPassword(data.password);
+      } else if (this.nombreModelo === "inventario") {
+        data.stock = parseInt(data.stock, 10);
+      } else if (this.nombreModelo === "venta") {
+        // Convertir a tipos correctos
+        if (data.detallesVenta) {
+          delete data.detallesVenta.update;
+          delete data.detallesVenta.delete;
+        }
+        data.detallesVenta.create = (data.detallesVenta.create || []).map(
+          (detalle: any) => {
+            if (!detalle.productoId || !detalle.cantidad || !detalle.subtotal) {
+              throw new Error("Faltan datos obligatorios en detallesVenta");
+            }
+            return {
+              productoId: detalle.productoId,
+              cantidad: parseInt(detalle.cantidad, 10),
+              subtotal: parseFloat(detalle.subtotal),
+            };
+          }
+        );
+        data.metodoPago = data.metodoPago as MetodoPago;
+        data.total = parseFloat(data.total);
       }
       await (this.modelo as any).create({ data });
       res.status(200).json({
@@ -54,41 +84,12 @@ export class GeneradorControlador<T extends keyof PrismaClient> {
   //buscar varios datos
   async findAll(req: Request, res: Response) {
     try {
-      const { skip = 0, take = 10, fecha, nombre } = req.query;
-      console.log(this.nombreModelo);
-      const where: any = {};
-      const nombreFilter = { contains: nombre as string, mode: "insensitive" };
-      if (fecha) where.fecha = { equals: new Date(fecha as string) };
-      else if (nombre) {
-        if (["cliente", "user"].includes(this.nombreModelo)) {
-          where.OR = [{ nombre: nombreFilter }, { apellido: nombreFilter }];
-        } else if (this.nombreModelo === "inventario") {
-          where.producto = { nombre: nombreFilter };
-        } else if (this.nombreModelo === "venta") {
-          where.cliente = {
-            OR: [{ nombre: nombreFilter }, { apellido: nombreFilter }],
-          };
-        } else {
-          where.nombre = nombreFilter;
-        }
-      }
-      const [data, total] = await Promise.all([
-        (this.modelo as any).findMany({
-          skip: Number(skip),
-          take: Number(take),
-          where,
-          select: this.buildSelect(),
-        }),
-        (this.modelo as any).count({ where }),
-      ]);
+      const data = await (this.modelo as any).findMany({
+        select: this.buildSelect(),
+      });
 
       res.json({
         data,
-        pagination: {
-          total,
-          skip: Number(skip),
-          take: Number(take),
-        },
       });
     } catch (error) {
       GeneradorControlador.handleError(res, error);
@@ -118,8 +119,70 @@ export class GeneradorControlador<T extends keyof PrismaClient> {
     try {
       const where = { id: req.params.id };
       const data = req.body;
-      if(this.nombreModelo === "empleado"){
-        data.password = await hashPassword(data.password);
+      if (this.nombreModelo === "inventario") {
+        data.stock = parseInt(data.stock, 10);
+      } else if (this.nombreModelo === "venta") {
+        // Convertir a tipos correctos
+        if (data.detallesVenta.create) {
+          data.detallesVenta.create = (data.detallesVenta.create || []).map(
+            (detalle: any) => {
+              if (
+                !detalle.productoId ||
+                !detalle.cantidad ||
+                !detalle.subtotal
+              ) {
+                throw new Error("Faltan datos obligatorios en detallesVenta");
+              }
+              return {
+                productoId: detalle.productoId,
+                cantidad: parseInt(detalle.cantidad, 10),
+                subtotal: parseFloat(detalle.subtotal),
+              };
+            }
+          );
+        } else {
+          delete data.detallesVenta.create;
+        }
+
+        if (data.detallesVenta.update) {
+          data.detallesVenta.update = data.detallesVenta.update.map(
+            (detalle: any) => {
+              if (
+                !detalle.id ||
+                !detalle.productoId ||
+                !detalle.cantidad ||
+                !detalle.subtotal
+              ) {
+                throw new Error(
+                  "Faltan datos obligatorios en detallesVenta.update"
+                );
+              }
+              return {
+                where: { id: detalle.id },
+                data: {
+                  productoId: detalle.productoId,
+                  cantidad: parseInt(detalle.cantidad, 10),
+                  subtotal: parseFloat(detalle.subtotal),
+                },
+              };
+            }
+          );
+        } else {
+          delete data.detallesVenta.update;
+        }
+        if (data.detallesVenta.delete) {
+          data.detallesVenta.delete = data.detallesVenta.delete.map(
+            (detalle: any) => {
+              if (typeof detalle.id !== "string" || detalle.id.trim() === "") {
+                throw new Error("ID inválido en detallesVenta.delete");
+              }
+              return { id: detalle.id.trim() };
+            }
+          );
+        } else {
+          delete data.detallesVenta.delete;
+        }
+        data.total = parseFloat(data.total);
       }
       await (this.modelo as any).update({ where, data });
       res.status(200).json({

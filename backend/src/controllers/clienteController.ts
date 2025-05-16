@@ -7,6 +7,7 @@ class ClienteController extends GeneradorControlador<"cliente"> {
       nombre: true,
       apellido: true,
       contacto: true,
+      direccion: true,
     });
   }
 }

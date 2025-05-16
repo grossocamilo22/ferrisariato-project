@@ -11,10 +11,7 @@ class VentaController extends GeneradorControlador<"venta"> {
         fecha: true,
         total: true,
       },
-      {
-        detallesVenta: true,
-        cliente: true,
-      }
+      { cliente: true, detallesVenta: { include: { producto: true } } }
     );
   }
 }
