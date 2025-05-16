@@ -12,7 +12,8 @@ import { Producto } from "../../../core/models/Producto";
 import { mensaje } from "../../../shared/utils/mensaje";
 
 function InventarioFormulario() {
-    const { create, update, getById: getInventarioById } = useApiEntity<Omit<Inventario, "producto"> & { productoId: string }>('inventarios');
+    const { create, update,  } = useApiEntity<Omit<Inventario, "producto"> & { productoId: string }>('inventarios');
+    const {getById: getInventarioById} = useApiEntity<Inventario>('inventarios')
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const {
@@ -80,7 +81,7 @@ function InventarioFormulario() {
         const inventario = await getInventarioById(id!);
         if (inventario) {
             console.log(inventario);
-            setFormData({ ...inventario, id: inventario.id ?? "", ultimaActualizacion: new Date(inventario.ultimaActualizacion) });
+            setFormData({ ...inventario, id: inventario.id ?? "",productName:inventario.producto.nombre,  ultimaActualizacion: new Date(inventario.ultimaActualizacion), });
         }
     };
 
