@@ -1,3 +1,4 @@
+import { CellValue } from "../../shared/components/table/table";
 import { handleApiError } from "../utils/handleError";
 import api from "./api";
 
@@ -19,8 +20,9 @@ export const obtenerTodos = async (entidad: string) => {
   }
 };
 
-export const crear = async <T extends object>(entidad: string, datos: T) => {
+export const crear = async <T extends Record<string, CellValue>>(entidad: string, datos: T) => {
   try {
+    console.log(datos);
     const response = await api.post(`/${entidad}`, datos);
     return response.data;
   } catch (error) {

@@ -4,14 +4,14 @@ import { TipoIdentificacion } from "./Tipo_Identificacion";
 
 export type User = {
   id: string;
-  tipoIdentificacion: TipoIdentificacion | "";
+  tipoIdentificacion: keyof typeof TipoIdentificacion;
   nombre: string;
   apellido: string;
   direccion: string;
   contacto: string;
   correo: string;
   password: string;
-  rol: Rol;
+  rol: keyof typeof Rol;
 };
 
 export type EmpleadoTableData = ClienteTableData;
@@ -26,3 +26,4 @@ export type FormUserLogin = Omit<
   | "contacto"
   | "rol"
 >;
+

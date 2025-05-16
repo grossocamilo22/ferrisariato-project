@@ -1,28 +1,45 @@
+import { useEffect, useState } from "react";
 
-interface IconItemProps {
-    showIcon: boolean;
-}
-
-function IconItem({ showIcon }: IconItemProps) {
-    return showIcon ? (
-        <i className="btn border-0 position-absolute top-0 end-0 bi bi-search fw-bolder"></i>
-    ) : null;
-}
-
+// BtnSearch.tsx
 interface BtnSearchProps {
     placeholder?: string;
     type?: string;
     showIcon?: boolean;
+    onSearch: (term: string) => void; // Debe recibir solo el string
+    debounceTime?: number;
 }
 
+function BtnSearch({ 
+    placeholder = "", 
+    type = "text", 
+    showIcon = true, 
+    onSearch,
+    debounceTime = 300 
+}: BtnSearchProps) {
+    const [inputValue, setInputValue] = useState('');
 
-function BtnSearch({ placeholder = "", type = "text", showIcon = true }: BtnSearchProps) {
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            onSearch(inputValue); // Solo pasa el término de búsqueda
+        }, debounceTime);
+
+        return () => clearTimeout(timer);
+    }, [inputValue, onSearch, debounceTime]);
+
     return (
         <div className="position-relative col-lg-4 col-12">
-            <input type={type} className="form-control border border-black border-opacity-50" placeholder={placeholder} />
-            <IconItem showIcon={showIcon} />
+            <input 
+                type={type}
+                className="form-control border border-black border-opacity-50"
+                placeholder={placeholder}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+            />
+            {showIcon && (
+                <i className="btn border-0 position-absolute top-0 end-0 bi bi-search fw-bolder"></i>
+            )}
         </div>
-    )
+    );
 }
 
 export default BtnSearch

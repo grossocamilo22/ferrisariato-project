@@ -19,11 +19,13 @@ import ProveedorLista from "../../../pages/admin/proveedor/proveedor-lista";
 import VentaFormulario from "../../../pages/common/venta/venta-formulario";
 import VentaLista from "../../../pages/common/venta/venta-lista";
 import Estadistica from "../../../pages/admin/estadistica/estadistica";
-
+import Unauthorized from "../../../pages/errors/Unauthorized";
+import NotFound from "../../../pages/errors/NotFound";
+import { roleLoader } from "../loader/roleLoader";
 
 function ruta(
   mainPath: string,
-  nombreSingular:string,
+  nombreSingular: string,
   listadoComponente?: React.ComponentType,
   formularioComponent?: React.ComponentType
 ): RouteObject {
@@ -79,47 +81,61 @@ export const route = createBrowserRouter([
         index: true,
         path: "login",
         Component: Login,
-        loader: ():RouteLoaderData => ({titulo:"Iniciar sesión"})
+        loader: (): RouteLoaderData => ({ titulo: "Iniciar sesión" }),
       },
       {
         path: "register",
         Component: Register,
-        loader: ():RouteLoaderData => ({titulo:"Crear Cuenta"})
+        loader: (): RouteLoaderData => ({ titulo: "Crear Cuenta" }),
       },
     ],
   },
   {
     path: "/admin",
     Component: MainLayout,
+    loader: roleLoader("ADMIN"),
     children: [
       {
         index: true,
         Component: Home,
         loader: (): RouteLoaderData => ({ titulo: "Home", icon: "house-fill" }),
       },
-      ruta("clientes","Cliente", ClienteLista, ClienteFormulario),
-      ruta("empleados","Empleado", EmpleadoLista, EmpleadoFormulario),
-      ruta("inventarios","Inventario", InventarioLista, InventarioFormulario),
-      ruta("productos","Producto", ProductoLista, ProductoFormulario),
-      ruta("proveedores","Proveedor", ProveedorLista, ProveedorFormulario),
-      ruta("ventas","Venta", VentaLista, VentaFormulario),
+      ruta("clientes", "Cliente", ClienteLista, ClienteFormulario),
+      ruta("empleados", "Empleado", EmpleadoLista, EmpleadoFormulario),
+      ruta("inventarios", "Inventario", InventarioLista, InventarioFormulario),
+      ruta("productos", "Producto", ProductoLista, ProductoFormulario),
+      ruta("proveedores", "Proveedor", ProveedorLista, ProveedorFormulario),
+      ruta("ventas", "Venta", VentaLista, VentaFormulario),
       {
-        path:"estadistica",
-        Component:Estadistica,
-        loader: (): RouteLoaderData => ({ titulo: "Estadistica", icon: "house-fill" }),
-      }
+        path: "estadistica",
+        Component: Estadistica,
+        loader: (): RouteLoaderData => ({
+          titulo: "Estadistica",
+          icon: "house-fill",
+        }),
+      },
     ],
   },
   {
     path: "/employee",
     Component: MainLayout,
+    loader: roleLoader("EMPLEADO"),
     children: [
       {
         index: true,
         Component: Home,
+        loader: (): RouteLoaderData => ({ titulo: "Home", icon: "house-fill" }),
       },
-      ruta("clientes","Cliente", ClienteLista, ClienteFormulario),
-      ruta("ventas","Venta", VentaLista, VentaFormulario),
+      ruta("clientes", "Cliente", ClienteLista, ClienteFormulario),
+      ruta("ventas", "Venta", VentaLista, VentaFormulario),
     ],
+  },
+  {
+    path: "/unauthorized",
+    Component: Unauthorized,
+  },
+  {
+    path: "*", 
+    Component: NotFound,
   },
 ]);

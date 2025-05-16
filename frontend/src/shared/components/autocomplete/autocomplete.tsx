@@ -7,6 +7,8 @@ export interface AutocompleteProps<T, TForm> {
   parametro: string;
   campoObjeto: keyof TForm;
   campoTexto?: keyof TForm;
+  className:string
+  properties: Array<keyof T>
 }
 
 
@@ -16,7 +18,9 @@ function Autocomplete<T extends { nombre?: string; id?: string }, TForm>({
   setFormData,
   parametro,
   campoObjeto,
-  campoTexto
+  campoTexto,
+  properties,
+  className
 }: AutocompleteProps<T, TForm>) {
   const [showList, setShowList] = useState(false);
   const [listado, setListado] = useState<T[]>([]);
@@ -38,17 +42,23 @@ function Autocomplete<T extends { nombre?: string; id?: string }, TForm>({
   }, [parametro, listaDatos, isFocused]);
 
   const handleSelect = (data: T) => {
+    console.log(data);
+    const value = properties.map((key) => (
+      String(data[key])
+    )).join(" ")
     setFormData((prev: TForm) => ({
       ...prev,
       [campoObjeto]: data,
-      ...(campoTexto ? { [campoTexto]: data.nombre } : {}),
+      ...(campoTexto ? {
+        [campoTexto]: value
+      } : {}),
     }));
     setListado([]);
     setShowList(false);
     setIsFocused(false);
   };
   return (
-    <div className="position-relative col-lg-4 col-12"
+    <div className={`position-relative ${className}`}
       onFocus={() => setIsFocused(true)}
       onBlur={() => setTimeout(() => setIsFocused(false), 200)}
     >
@@ -65,7 +75,9 @@ function Autocomplete<T extends { nombre?: string; id?: string }, TForm>({
                 onClick={() => handleSelect(data)}
               >
 
-                {data.nombre}
+                {properties.map((key, index) => (
+                  <span key={index}>{String(data[key])} </span>
+                ))}
               </button>
             </li>
           ))}

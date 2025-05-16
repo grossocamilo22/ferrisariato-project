@@ -4,7 +4,7 @@ import { MetodoPago } from "./MetodoPago";
 import { User } from "./User";
 
 export type Venta = {
-  id: string;
+  id?: string;
   cliente?: Cliente;
   user?: User;
   detalles: DetalleVenta[];
@@ -18,6 +18,4 @@ export type VentaTableData = { clienteNombre: string; fecha: string } & Omit<
   "detalles" | "user" | "cliente" | "fecha" | "metodoPago"
 >;
 
-export type FormVenta = Omit<Venta, "cliente"> & {
-  cliente: Cliente | null;
-};
+export type FormVenta = Venta & { clienteName: string };

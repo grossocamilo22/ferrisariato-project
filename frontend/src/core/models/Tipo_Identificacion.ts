@@ -1,5 +1,6 @@
+
 export enum TipoIdentificacion {
-  CC = "Cédula de Ciudadanía",
+  CC = "Cedula de Ciudadanía",
   TI = "Tarjeta de Identidad",
   PAS = "Pasaporte",
   NIT = "NIT",

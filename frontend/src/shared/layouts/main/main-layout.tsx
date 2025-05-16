@@ -4,14 +4,33 @@ import Header from "../../templates/header/header"
 import Sidenav from "../../templates/sidenav/sidenav"
 import "./main-layout.css"
 import { RouteLoaderData } from "../../../core/interfaces/RouteLoaderData"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { renewToken } from "../../../core/services/api"
+import { useAuth } from "../../../core/context/AuthContext"
+
 
 
 function MainLayout() {
   const matches = useMatches();
+  const { setUser } = useAuth();
   const currentRoute = matches[matches.length - 1];
   const routeLoaderData = currentRoute.data as RouteLoaderData;
   const [isSideNavOpened, setIsSideNavOpened] = useState(false);
+
+  useEffect(() => {
+    async function initializeAuth() {
+      try {
+        const res = await renewToken();  // esta ruta debe validar la cookie httpOnly
+        const userData = res.data?.data;
+        setUser(userData);
+      } catch (error) {
+        console.log(error);
+        setUser(null);
+      }
+    }
+    initializeAuth();
+  }, [setUser]);
+
   return (
     <div className={`main-container ${isSideNavOpened && 'open-sidenav'}`}>
       <Header openSideNav={() => setIsSideNavOpened(true)} />

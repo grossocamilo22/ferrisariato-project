@@ -4,11 +4,13 @@ import Toolbar from '../../components/toolbar/toolbar';
 
 
 type ListLayoutProps<T extends { id: string | number }> = TablaEstructura<T> & ToolBarProps & { nombreEntidad: string };
-function ListLayout<T extends { id: string | number }>({ nombreColumnas = [], data = [], children, nombreEntidad = "" }: ListLayoutProps<T>) {
+function ListLayout<T extends { id: string | number }>({ columnas = [], nombreColumnas = [], data = [], children, nombreEntidad = "", onDelete }: ListLayoutProps<T> & {
+    onDelete?: (id: string) => Promise<void> | void;
+}) {
     return (
         <section className="d-flex flex-column gap-lg-4  gap-3  ">
             <Toolbar children={children} />
-            <Table data={data} nombreColumnas={nombreColumnas} nombreEntidad={nombreEntidad} />
+            <Table onDelete={onDelete} columnas={columnas} data={data} nombreColumnas={nombreColumnas} nombreEntidad={nombreEntidad} />
         </section>
     )
 }

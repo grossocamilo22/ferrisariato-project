@@ -1,8 +1,11 @@
 import { MouseEventHandler } from 'react';
 import './header.css';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from '../../../core/context/AuthContext';
 
 function Header({ openSideNav }: { openSideNav: MouseEventHandler<HTMLAnchorElement> }) {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
     return (
         <header className='header'>
             <ul className='header-content'>
@@ -14,7 +17,12 @@ function Header({ openSideNav }: { openSideNav: MouseEventHandler<HTMLAnchorElem
                     </a>
                     <ul className="dropdown-menu">
                         {/* <li><a className="dropdown-item text-center" href="#">Administrar datos</a></li> */}
-                        <li><a className="dropdown-item text-center" href="#">Cerrar sesión <i className="bi bi-box-arrow-in-right"></i></a></li>
+                        <li><a className="dropdown-item text-center" onClick={(e) => {
+                            e.preventDefault()
+                            logout();
+                            navigate("/auth/login");
+
+                        }}>Cerrar sesión <i className="bi bi-box-arrow-in-right"></i></a></li>
                     </ul>
 
                 </li>

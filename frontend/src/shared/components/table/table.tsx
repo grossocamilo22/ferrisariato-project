@@ -7,39 +7,61 @@ import { Accion, defaultAcciones } from "../../../core/config/table/acciones.con
 
 export type CellValue = string | number | boolean | Date | null | undefined | object;
 
-export type TablaEstructura<T extends { id: string | number } & Record<string, CellValue>> = {
+export type TablaEstructura<T extends { id?: string | number } & Record<string, CellValue>> = {
     nombreColumnas: string[];
     data: T[];
     nombreEntidad: string,
     className?: string
-    acciones?: Accion[];
+    acciones?: Accion<T>[];
+    columnas: Array<keyof T>
 }
 
-const deleteData = (id: string, nombreEntidad: string) => {
+const deleteData = (
+    id: string,
+    nombreEntidad: string,
+    onConfirm: () => Promise<void> | void
+) => {
     const MySwal = withReactContent(Swal);
 
     MySwal.fire({
-        title: `¿Está seguro del eliminar el ${nombreEntidad} con id = ${id}`,
+        title: `¿Está seguro de eliminar el ${nombreEntidad} con id = ${id}`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
+        confirmButtonText: "Sí, eliminar!",
+        cancelButtonText: "Cancelar"
     }).then(async (result) => {
         if (result.isConfirmed) {
-            //Accion en caso de que elijan el SI 
+            try {
+                await onConfirm();
+                MySwal.fire(
+                    '¡Eliminado!',
+                    `El ${nombreEntidad} ha sido eliminado.`,
+                    'success'
+                );
+            } catch (error: unknown) {
+                MySwal.fire(
+                    'Error',
+                    `No se pudo eliminar el ${error}.`,
+
+                );
+            }
         }
     });
+};
 
-}
-
-function Table<T extends { id: string | number } & Record<string, CellValue>>({
+function Table<T extends { id?: string | number } & Record<string, CellValue>>({
     nombreColumnas = [],
     nombreEntidad = "",
     data = [],
     className = " border-top",
-    acciones = defaultAcciones,
-}: TablaEstructura<T>) {
+    acciones = defaultAcciones(),
+    columnas = [],
+    onDelete 
+}: TablaEstructura<T> & {
+    onDelete?: (id: string) => Promise<void> | void;
+}) {
 
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +78,30 @@ function Table<T extends { id: string | number } & Record<string, CellValue>>({
             setCurrentPage(totalPages);
         }
     }, [totalPages, currentPage]);
+
+    const handleActionClick = (accion: Accion<T>, element: T) => {
+        const id = String(element.id);
+        console.log(id)
+
+        if (accion.onClick) {
+            return accion.onClick(id, element);
+        }
+
+        switch (accion.action) {
+            case 'delete':
+                return deleteData(id, nombreEntidad, async () => {
+                    if (onDelete) {
+                        await onDelete(id);
+                    }
+                });
+            case 'show':
+            case 'edit':
+                return navigate(`${accion.action}/${id}`);
+            default:
+                console.warn(`Acción '${accion.action}' no implementada`);
+        }
+    };
+
 
     return (
         <div className="table-responsive">
@@ -79,9 +125,10 @@ function Table<T extends { id: string | number } & Record<string, CellValue>>({
                             currentItems.map((element, rowIdx) => (
 
                                 <tr key={rowIdx}>
-                                    {Object.entries(element).map(([key, value]) => (
-                                        <td key={key} className="fw-normal">
-                                            <span className="d-lg-none">{key}</span>   {String(value)}
+                                    {columnas.map((key) => (
+                                        <td key={String(key)} className="fw-normal">
+                                            <span className="d-lg-none">{String(key)}</span>
+                                            {String(element[key])}
                                         </td>
                                     ))}
                                     {acciones.length > 0 && (
@@ -93,11 +140,10 @@ function Table<T extends { id: string | number } & Record<string, CellValue>>({
                                                         key={idx}
                                                         type="button"
                                                         className="btn btn-table border border-0 rounded-circle"
-                                                        onClick={() => accion.action === "delete" ? deleteData(String(element?.id), nombreEntidad) : navigate(`${accion.action}/${element?.id}`)}
+                                                        onClick={() => handleActionClick(accion, element)}
+                                                        aria-label={accion.action}
                                                     >
-                                                        <i
-                                                            className={`fs-5 text-${accion.color} bi bi-${accion.icono}`}
-                                                        ></i>
+                                                        <i className={`fs-5 text-${accion.color} bi bi-${accion.icono}`}></i>
                                                     </button>
                                                 ))}
                                             </section>

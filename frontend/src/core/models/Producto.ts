@@ -1,7 +1,7 @@
 import { Categoria } from "./Categoria";
 
 export type Producto = {
-  id: string;
+  id?: string;
   codigoBarras: string;
   nombre: string;
   cantidadUnitaria: string;

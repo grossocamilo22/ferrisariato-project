@@ -1,7 +1,7 @@
 import { Producto } from "./Producto";
 
 export type Inventario = {
-  id: string;
+  id?: string;
   producto: Producto;
   stock: number;
   ultimaActualizacion: Date;
