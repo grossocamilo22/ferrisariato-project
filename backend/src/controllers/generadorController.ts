@@ -49,8 +49,11 @@ export class GeneradorControlador<T extends ModelName> {
       const data = req.body;
       if (this.nombreModelo === "empleado") {
         data.password = await hashPassword(data.password);
-      } else if (this.nombreModelo === "inventario") {
-        data.stock = parseInt(data.stock, 10);
+      }else if(this.nombreModelo === "producto"){
+        data.precio = parseFloat(data.precio);
+      }
+       else if (this.nombreModelo === "inventario") {
+         data.stock = parseInt(data.stock, 10);
       } else if (this.nombreModelo === "venta") {
         // Convertir a tipos correctos
         if (data.detallesVenta) {
@@ -121,6 +124,8 @@ export class GeneradorControlador<T extends ModelName> {
       const data = req.body;
       if (this.nombreModelo === "inventario") {
         data.stock = parseInt(data.stock, 10);
+      }else if(this.nombreModelo === "producto"){
+        data.precio = parseFloat(data.precio);
       } else if (this.nombreModelo === "venta") {
         // Convertir a tipos correctos
         if (data.detallesVenta.create) {
@@ -213,7 +218,6 @@ export class GeneradorControlador<T extends ModelName> {
         message: "Error en la solicitud a la base de datos",
       });
     } else {
-      console.error(error);
       res.status(500).json({ message: "Error interno del servidor", error });
     }
   }
