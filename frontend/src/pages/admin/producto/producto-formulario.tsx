@@ -81,13 +81,15 @@ function ProductoFormulario() {
             return;
         }
 
+        console.log(formData.categoria)
+
         const productoData = {
             nombre: formData.nombre,
             cantidadUnitaria: formData.cantidadUnitaria,
             codigoBarras: formData.codigoBarras,
             descripcion: formData.descripcion,
             precio: formData.precio,
-            categoriaId: formData.categoria?.id ?? "",
+            categoriaId: String(formData.categoria),
         };
 
         try {
